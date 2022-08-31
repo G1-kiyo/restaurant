@@ -270,13 +270,13 @@ class MainEntry:
     def refresh_waiting_queue(self):
         index = 0
         for customer_group in self.waiting_queue:
-            print(f'len1:{len(self.waiting_queue)}')
+            # print(f'len1:{len(self.waiting_queue)}')
             if customer_group.LEAVE == False:
                 for customer_order in range(len(customer_group.customer_list)):
                     # print("第"+str(group_order)+"组第"+str(customer_order)+"人在moving")
                     # 仅更新对象类的变量,绘图在主程序内绘制
                     customer = customer_group.customer_list[customer_order]
-                    print(f'len2:{len(self.waiting_queue)}')
+                    # print(f'len2:{len(self.waiting_queue)}')
                     customer.move(0, [5 - customer_order,
                                       5 - customer_order], (
                                       150 - index * 30,
@@ -581,7 +581,7 @@ class MainEntry:
                 self.screen.blit(self.subWindow, (0, 0))
                 # 计时，更换时钟图片
                 if self.clock_timer[1]==False:
-                    pygame.time.set_timer(self.clock_timer[0],3000)
+                    pygame.time.set_timer(self.clock_timer[0],10000)
                     self.clock_timer[1] = True
                 if self.CLOCK==5:
                     self.save_score()
@@ -645,13 +645,27 @@ class MainEntry:
                         for i in range(len(customer_group.customer_list)):
                             seatX = table.seat.get(i + 1).get("pos")[0]  # 335,280
                             seatY = table.seat.get(i + 1).get("pos")[1]
+                            # print(f'seatX:{seatX},seatY:{seatY}')
                             customer = customer_group.customer_list[i]
+                            # if i==1:
+                                # print(f'seatX{seatX},seatY{seatY},customerY{customer.y},customerX{customer.x}')
                             # customer.find_path([5 - i * 5,5-i*5], self.table_list[customer_group.TABLE])
+                            # if customer.y<seatY:
+                            #     customer.move(2, [5, 5], (0, seatY))
+                            # elif customer.y>seatY:
+                            #     customer.move(3, [5, 5], (0, seatY))
+                            # elif customer.y==seatY:
+                            #     if customer.x<seatX:
+                            #         customer.move(0, [5, 5], (seatX, 0))
+                            #     # elif customer.x>seatX:
+                            #     #     customer.move(1, [5, 5], (seatX, 0))
+
                             if customer.x < 280:
                                 customer.move(0, [5, 5], (280, 0))
-                            elif customer.x == 280 and customer.y == seatY:
+                            elif customer.x >= 280 and customer.x<=seatX and customer.y == seatY:
                                 customer.move(0, [5, 5], (425, 325))
-                            elif customer.x == 280 and customer.y < seatY:
+                            elif customer.x >= 280 and customer.x<=seatX and customer.y < seatY:
+                                # print(f'{i}goes')
                                 customer.move(2, [5, 5], (0, seatY))
                             elif customer.x == 280 and customer.y > seatY:
                                 # print(customer.order,customer.y,5-i)
